@@ -66,7 +66,7 @@ app.post("/listings", async(req, res) => {
 //     res.redirect("listings/" + newListing._id);
 // });
 
-
+ 
 // Edit route
 app.get('/listings/:id/edit', async (req, res) => {
     const {id} = req.params;
