@@ -20,6 +20,14 @@ const listingSchema = new Schema({
     },
     location: String,
     country: String,
+    reviews: [
+      {
+        // we use Schema.Types.ObjectId to refer to the ObjectID type provided by Mongoose
+        // this is an efficient way to store the ID of the review document in MongoDB
+        type: Schema.Types.ObjectId,
+        ref: "Review",
+      },
+    ], 
 });
 
 // Create a mongoose model for the Listing schema

@@ -5,6 +5,7 @@ const Listing = require("./models/listing.js");
 const path = require("path");
 const overide = require("method-override");
 const ejsMate = require("ejs-mate");
+const Review = require("./models/review.js");
 
 main().then(() => {
     console.log("connected to db");
@@ -100,6 +101,22 @@ app.delete('/listings/:id', async (req, res) => {
     res.redirect('/listings');
 });
 
+//reviews
+//post route
+app.post('/listings/:id/reviews', async (req, res) =>{
+    
+   let listing = await Listing.findById(req.params.id); //let {id} = req.params; // saves one step directly done it here
+    let newReview = new Review(req.body);
+
+    listing.reviews.push(newReview);
+
+    await newReview.save();
+    await listing.save();
+
+    console.log(newReview);
+    res.send('Review added');
+}
+)
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
 });
