@@ -1,0 +1,32 @@
+const express=require("express");
+const router=express.Router({mergeParams: true});
+const Review = require("../models/review.js");
+const listings = require("../routes/listing.js");
+const Listing = require("../models/listing.js");
+
+//reviews
+//post route
+     router.post('/', async (req, res) =>{         //router.post('/listings/:id/reviews', WE WILL REMOVE THE COMMON ROUTE in both routes
+                                                                      //i.e/listings/:id/  common in both routes
+    let listing = await Listing.findById(req.params.id);             //let {id} = req.params;     saves one step directly done it here
+     let newReview = new Review(req.body.review);
+     await newReview.save();
+     listing.reviews.push(newReview._id);
+ 
+     await newReview.save();
+     await listing.save();
+ 
+     res.redirect(`/listings/${listing._id}`);
+ }
+ )
+ 
+ //delete review route
+ router.delete('/:review_id', async (req, res) => {
+     let {id, review_id} = req.params;
+     await Listing.findByIdAndUpdate(id, {$pull: {reviews: review_id}});
+     await Review.findById(review_id);
+     res.redirect(`/listings/${id}`);
+    });
+
+    module.exports=router;
+
