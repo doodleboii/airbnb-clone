@@ -24,11 +24,18 @@ const listingSchema = new Schema({
       {
         // we use Schema.Types.ObjectId to refer to the ObjectID type provided by Mongoose
         // this is an efficient way to store the ID of the review document in MongoDB
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "Review",
       },
     ], 
 });
+
+  listingSchema.post("findOneAndDelete", async function (listing) {
+    if (listing.reviews.length) {
+       await Review.deleteMany({ _id: { $in: listing.reviews } });
+      
+    }
+  });
 
 // Create a mongoose model for the Listing schema
 const Listing = mongoose.model("Listing", listingSchema);

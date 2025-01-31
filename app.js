@@ -40,9 +40,11 @@ app.get("/listings/new", async(req, res) => {
     res.render("listings/new.ejs");
 })
 
+//show route
+
 app.get("/listings/:id", async(req, res) => {
     let {id} = req.params;
-    const listing = await Listing.findById(id);
+    const listing = await Listing.findById(id).populate('reviews');
     res.render("listings/show.ejs", {listing});
 });
 
@@ -106,17 +108,27 @@ app.delete('/listings/:id', async (req, res) => {
 app.post('/listings/:id/reviews', async (req, res) =>{
     
    let listing = await Listing.findById(req.params.id); //let {id} = req.params; // saves one step directly done it here
-    let newReview = new Review(req.body);
+    let newReview = new Review(req.body.review);
+    await newReview.save();
+    listing.reviews.push(newReview._id);
 
-    listing.reviews.push(newReview);
 
     await newReview.save();
     await listing.save();
 
-    console.log(newReview);
-    res.send('Review added');
+    res.redirect(`/listings/${listing._id}`);
 }
 )
+
+//delete review route
+app.delete('/listings/:id/reviews/:review_id', async (req, res) => {
+    let {id, review_id} = req.params;
+    await Listing.findByIdAndUpdate(id, {$pull: {reviews: review_id}});
+    await Review.findById(review_id);
+    res.redirect(`/listings/${id}`);
+
+});
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
 });
+

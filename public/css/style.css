@@ -61,7 +61,7 @@ body{
     justify-content: space-between; /* Adjust spacing between cards */
 }
 
-.card{
+.listing-card{
     display: flex;
     border: none!important;
     margin-bottom: 2rem;
