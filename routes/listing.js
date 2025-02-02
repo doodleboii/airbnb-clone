@@ -1,6 +1,7 @@
 const express=require("express");
 const router=express.Router();
 const Listing = require("../models/listing.js");
+const {isLoggedIn} = require("../middleware.js");
 
 //index route
 router.get("/", async(req, res) => {
@@ -10,7 +11,7 @@ router.get("/", async(req, res) => {
 });
 
 ///new route
-router.get("/new", async(req, res) => {
+router.get("/new", isLoggedIn, async(req, res) => {
     res.render("listings/new.ejs");
 })
 
@@ -26,7 +27,7 @@ router.get("/:id", async(req, res) => {
 });
 
 // Create route
-router.post("/", async(req, res) => {
+router.post("/", isLoggedIn, async(req, res) => {
     let {title, description, price, image, location, country} = req.body;
     let newListing = new Listing({
         title,
@@ -49,7 +50,7 @@ router.post("/", async(req, res) => {
 
  
 // Edit route
-router.get('/:id/edit', async (req, res) => {
+router.get('/:id/edit', isLoggedIn, async (req, res) => {
     const {id} = req.params;
     const listing = await Listing.findById(id); 
     if(!listing){
@@ -60,7 +61,7 @@ router.get('/:id/edit', async (req, res) => {
 });
 
 // Update route
-router.put('/:id', async (req, res) => {
+router.put('/:id',isLoggedIn, async (req, res) => {
     let {id} = req.params;
     try {
         const listing = await Listing.findByIdAndUpdate(id, {
@@ -80,7 +81,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // Delete route
-router.delete('/:id', async (req, res) => {
+router.delete('/:id',isLoggedIn, async (req, res) => {
     const { id } = req.params;
     await Listing.findByIdAndDelete(id);
     req.flash('success', 'Listing Deleted!');
