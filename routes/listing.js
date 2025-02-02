@@ -18,6 +18,10 @@ router.get("/new", async(req, res) => {
 router.get("/:id", async(req, res) => {
     let {id} = req.params;
     const listing = await Listing.findById(id).populate('reviews');
+    if(!listing){
+    req.flash('error', 'Listing not found!');
+    res.redirect('/listings');
+    }
     res.render("listings/show.ejs", {listing});
 });
 
@@ -33,7 +37,8 @@ router.post("/", async(req, res) => {
         country
     });
     await newListing.save();
-    res.redirect("listings/" , newListing._id);
+    req.flash('success', 'New Listings Added!');
+    res.status(201).redirect(`/listings`);
 });
 // app.post("/listings", async(req, res) => {
 //     let {title, description, price, image, location, country} = req.body;
@@ -47,6 +52,10 @@ router.post("/", async(req, res) => {
 router.get('/:id/edit', async (req, res) => {
     const {id} = req.params;
     const listing = await Listing.findById(id); 
+    if(!listing){
+        req.flash('error', 'Listing not found!');
+        res.redirect('/listings');
+        }
     res.render('listings/edit.ejs', { listing });
 });
 
@@ -62,6 +71,7 @@ router.put('/:id', async (req, res) => {
             country: req.body.country,
             'image.url': req.body.image.url
           } );
+          req.flash('success', 'Listing Updated!');
         res.redirect(`/listings/${id}`);
     } catch (err) {
         console.error(err);
@@ -73,6 +83,7 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
     const { id } = req.params;
     await Listing.findByIdAndDelete(id);
+    req.flash('success', 'Listing Deleted!');
     res.redirect('/listings');
 });
 

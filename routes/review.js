@@ -15,7 +15,8 @@ const Listing = require("../models/listing.js");
  
      await newReview.save();
      await listing.save();
- 
+
+     req.flash('success', 'New Review Added!');
      res.redirect(`/listings/${listing._id}`);
  }
  )
@@ -25,6 +26,7 @@ const Listing = require("../models/listing.js");
      let {id, review_id} = req.params;
      await Listing.findByIdAndUpdate(id, {$pull: {reviews: review_id}});
      await Review.findById(review_id);
+     req.flash('success', 'Review Deleted!');
      res.redirect(`/listings/${id}`);
     });
 
