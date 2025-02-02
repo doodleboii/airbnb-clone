@@ -66,6 +66,15 @@ body{
     border: none!important;
     margin-bottom: 2rem;
     margin: 0.5rem; 
+    /* margin-left: 13rem; */
+}
+
+.listing-container {
+    display: flex;
+    border: none!important;
+    margin-bottom: 2rem;
+    margin: 0.5rem; 
+    margin-left: 13rem;
 }
 
 .card-img-top{

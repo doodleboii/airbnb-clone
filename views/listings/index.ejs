@@ -20,9 +20,9 @@
                  
              <div class="card-img-overlay">c</div>
             <div class="card-body">
-              <p class="card-text">
-               <b> <%= listing.title %></b><br>
-               &#8377; <%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %>/ night<br>
+              <p class="card-text " style="font-size: 0.85rem">
+               <b> <%= listing.title %>, <%=listing.country %> </b><br>
+               <b> &#8377; <%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %></b> night<br>
 
             </p>
             </div>

@@ -4,6 +4,10 @@ const Listing = require("../models/listing.js");
 const {isLoggedIn, isOwner, isreviewAuthor} = require("../middleware.js");
 const listingController = require("../controllers/listings.js");
 
+const multer = require("multer");
+const {storage} = require("../cloudConfig.js");
+const upload = multer({ storage });
+
 
 //index route
 router.get("/", listingController.index);
@@ -15,15 +19,14 @@ router.get("/new", isLoggedIn, listingController.renderNewForm);
 router.get("/:id", listingController.showListing);
 
 // Create route
-router.post("/", isLoggedIn, listingController.createListing);
+router.post("/", isLoggedIn, upload.single("image"), listingController.createListing);
                                             // app.post("/listings", async(req, res) => {
                                             //     let {title, description, price, image, location, country} = req.body;
                                             //     let newListing = new Listing({title, description, price, image, location, country});
                                             //     await newListing.save();
                                             //     res.redirect("listings/" + newListing._id);
                                             // });
-
- 
+                                            
 // Edit route
 router.get('/:id/edit', isLoggedIn,isOwner, listingController.RenderEditForm);
 
