@@ -21,7 +21,7 @@ module.exports.saveRedirectUrl = async (req, res, next) => {
 module.exports.isOwner= async(req ,res , next) => {
     let {id} = req.params;
     listing = await Listing.findById(id);
-    if(!currUser && !listing.owner._id.equals(res.locals.currUser._id)){
+    if(!res.locals.currUser && !listing.owner._id.equals(res.locals.currUser._id)){
         req.flash('error', 'You do not have permission to edit this listing');
         return res.redirect(`/listings/${id}`);
     }
