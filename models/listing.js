@@ -24,10 +24,14 @@ const listingSchema = new Schema({
       {
         // we use Schema.Types.ObjectId to refer to the ObjectID type provided by Mongoose
         // this is an efficient way to store the ID of the review document in MongoDB
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: "Review",
       },
-    ], 
+    ],
+    owner:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    } 
 });
 
   listingSchema.post("findOneAndDelete", async function (listing) {

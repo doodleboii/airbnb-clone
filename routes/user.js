@@ -15,12 +15,16 @@ router.post('/signup', async (req, res) => {
         if (username.trim() === "" || email.trim() === "" || password.trim() === "") {
             req.flash("error", "Please provide all required fields");
            return res.redirect("/signup");
+
         }else {
+
             const existingUser = await User.findOne({ email });
             if (existingUser) {
                 req.flash("error", "Email already in use");
                 return res.redirect("/signup");
+                
             } else {
+
                 const newUser = new User({ username, email, password });
                 const registeredUser = await User.register(newUser, password);
                 console.log("Registered user:",registeredUser);
