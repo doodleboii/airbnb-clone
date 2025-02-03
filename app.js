@@ -12,6 +12,7 @@ const overide = require("method-override");
 const ejsMate = require("ejs-mate");
 const Review = require("./models/review.js");
 const session = require("express-session");
+const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -21,10 +22,22 @@ const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 
+const dbUrl = process.env.ATLASDB_URL;
 
+const store = MongoStore.create({
+    mongoUrl: dbUrl,
+    crypto: {
+        secret: 'thisisnotagoodsecret',
+    },
+    touchAfter: 24 * 60 * 60,
+});
 
+store.on("error", function (e) {
+    console.log("SESSION STORE ERROR", e);
+})
 
 const sessionOptions = {
+    store,
     secret: 'thisisnotagoodsecret',
     resave: false,
     saveUninitialized: true,
@@ -44,8 +57,10 @@ main().then(() => {
 })
 
 async function main() {
-    await mongoose.connect('mongodb://127.0.0.1:27017/wanderlust');
+    await mongoose.connect(dbUrl);
 }
+
+
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
