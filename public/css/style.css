@@ -116,3 +116,16 @@ card effect */
     display: flex;
     
 }
+
+#map {
+     height: 400px;
+      width: 120vh; 
+        
+    }
+    
+
+      .loc {
+        font-size: 1.3rem;
+        font-weight: 500;
+        font-style: italic;
+      }

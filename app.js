@@ -56,9 +56,9 @@ app.use(express.static(path.join(__dirname, '/public')));
 
 
 
-app.get("/", (req, res) => {
-    res.send("Hi! I am home route");
-});
+// app.get("/", (req, res) => {
+//     res.send("Hi! I am home route");
+// });
 
 app.use(session(sessionOptions));
 app.use(flash());

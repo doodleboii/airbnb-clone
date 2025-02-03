@@ -13,6 +13,8 @@ newReview.author = req.user._id;
 await newReview.save();
 listing.reviews.push(newReview._id);
 
+listing.markModified('reviews');
+
 await newReview.save();
 await listing.save();
 

@@ -9,6 +9,7 @@ const {storage} = require("../cloudConfig.js");
 const upload = multer({ storage });
 
 
+
 //index route
 router.get("/", listingController.index);
 
@@ -26,12 +27,12 @@ router.post("/", isLoggedIn, upload.single("image"), listingController.createLis
                                             //     await newListing.save();
                                             //     res.redirect("listings/" + newListing._id);
                                             // });
-                                            
+
 // Edit route
 router.get('/:id/edit', isLoggedIn,isOwner, listingController.RenderEditForm);
 
 // Update route
-router.put('/:id',isLoggedIn, isOwner, listingController.updateListing);
+router.put('/:id',isLoggedIn, isOwner, upload.single("image"), listingController.updateListing);
 
 // Delete route
 router.delete('/:id',isLoggedIn,isOwner, listingController.destroyListing);
