@@ -20,7 +20,7 @@ router.get("/new", isLoggedIn, listingController.renderNewForm);
 router.get("/:id", listingController.showListing);
 
 // Create route
-router.post("/", isLoggedIn, upload.single("image"), listingController.createListing);
+router.post("/", isLoggedIn, upload.single("imageFile"), listingController.createListing);
                                             // app.post("/listings", async(req, res) => {
                                             //     let {title, description, price, image, location, country} = req.body;
                                             //     let newListing = new Listing({title, description, price, image, location, country});
