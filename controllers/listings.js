@@ -30,7 +30,7 @@ module.exports.showListing = async (req, res) => {
     res.redirect('/listings');
     }
     console.log(listing);
-    res.render("listings/show.ejs", { listing: listing, coordinates: listing.geometry.coordinates });
+    res.render("listings/show.ejs", { listing: listing, coordinates: listing.geometry ? listing.geometry.coordinates : null });
 
     
 }
