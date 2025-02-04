@@ -275,10 +275,13 @@ card effect */
     }
     @media (max-width: 480px) {
         #filters {
-            flex-direction: column;
+            display: none;
+            
+            }
         }
         .filter {
-            margin-bottom: 0.5rem;
+            display:flex
+           
         }
     
         .toggle-switch {
