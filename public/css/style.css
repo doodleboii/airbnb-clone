@@ -231,6 +231,7 @@ card effect */
 
 @media (max-width: 768px) {
     .search {
+        
         width: 100%;
     }
 }
