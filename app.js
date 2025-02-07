@@ -1,6 +1,8 @@
-if(process.env.NODE_ENV != "production") {
-    require('dotenv').config();
-}
+// if(process.env.NODE_ENV != "production") {
+    
+// }
+
+require('dotenv').config();
 
 
 const express = require("express");
@@ -37,7 +39,7 @@ store.on("error", function (e) {
 })
 
 const sessionOptions = {
-    store,
+     store,
     secret: 'thisisnotagoodsecret',
     resave: false,
     saveUninitialized: true,
@@ -58,6 +60,7 @@ main().then(() => {
 
 async function main() {
     await mongoose.connect(dbUrl);
+    // await mongoose.connect("mongodb://127.0.0.1:27017/wanderlust");
 }
 
 
@@ -91,9 +94,15 @@ app.use((req, res, next) => {
     res.locals.currUser = req.user;
     next();
 });
+
 app.get("/", (req, res) => {
     res.redirect("/listings");
   });
+
+
+    
+    
+
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
