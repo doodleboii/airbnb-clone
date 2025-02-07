@@ -17,7 +17,6 @@ listing.markModified('reviews');
 
 await newReview.save();
 await listing.save();
-
 req.flash('success', 'New Review Added!');
 res.redirect(`/listings/${listing._id}`);
 }
